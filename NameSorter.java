@@ -6,7 +6,7 @@ public class NameSorter {
 
         ArrayList<Name> names = getNames();
 
-        Collections.sort(names, new SortByName());
+        Collections.sort(names, new SortByNameFunction());
 
         writeNames(names);
     }

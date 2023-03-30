@@ -29,7 +29,7 @@ public class NameSorterTests {
          Collections.addAll(expectedSortedNames, marin, adonis, beau, hunter, leo, vaughn, london, mikayla, janet, frankie, shelby);
  
          // Sort the unsorted names list
-         Collections.sort(unsortedNames, new SortByName());
+         Collections.sort(unsortedNames, new SortByNameFunction());
  
          // Verify that the sorted list matches the expected sorted list
          assertEquals(expectedSortedNames, unsortedNames);
@@ -60,7 +60,7 @@ public class NameSorterTests {
          Collections.addAll(expectedSortedNames, merton, sam, alysa, jules, ermintrude, lovel, norma2, norma, manny, ryland, jem);
  
          // Sort the unsorted names list
-         Collections.sort(unsortedNames, new SortByName());
+         Collections.sort(unsortedNames, new SortByNameFunction());
  
          // Verify that the sorted list matches the expected sorted list
          assertEquals(expectedSortedNames, unsortedNames);

@@ -1,7 +1,7 @@
 import java.util.*;
 
 // Class to implement Comparator interface
-public class SortByName implements Comparator<Name> {
+public class SortByNameFunction implements Comparator<Name> {
 
     // Sorting by last name, then first through third given name if applicable
     public int compare(Name name1, Name name2) {
