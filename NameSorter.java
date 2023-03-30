@@ -4,11 +4,11 @@ import java.util.*;
 //Class to represent a name
 class Name {
 
-    //Attributes of a name
+    // Attributes of a name
     String givenName1, lastName;
     Optional<String> givenName2, givenName3;
 
-    //Constructor
+    // Constructor
     public Name(String givenName1, String givenName2, String givenName3, String lastName) {
         this.givenName1 = givenName1;
         this.givenName2 = Optional.ofNullable(givenName2);
@@ -16,7 +16,7 @@ class Name {
         this.lastName = lastName;
     }
 
-    //Method to format name as string
+    // Method to format name as string
     public String toString() {
         if ((givenName2 != null && !givenName2.isEmpty()) && (givenName3 != null && !givenName3.isEmpty())) {
             return String.format("%s %s %s %s", givenName1, givenName2.orElse(""), givenName3.orElse(""), lastName);
@@ -28,33 +28,37 @@ class Name {
     }
 }
 
-//Class to implement Comparator interface
+// Class to implement Comparator interface
 class SortByName implements Comparator<Name> {
 
-    //Sorting by last name, then first through third given name if applicable
+    // Sorting by last name, then first through third given name if applicable
     public int compare(Name name1, Name name2) {
 
         int result = name1.lastName.compareTo(name2.lastName);
 
-        //If last names are the same, compare first names
-        if (result == 0 ){
+        // If last names are the same, compare first names
+        if (result == 0) {
             result = name1.givenName1.compareTo(name2.givenName1);
-            //If first names are the same, compare second given names
+            // If first names are the same, compare second given names
             if (result == 0) {
-                if ((name1.givenName2 != null && !name1.givenName2.isEmpty()) && (name2.givenName2 != null && !name2.givenName2.isEmpty())) {
+                if ((name1.givenName2 != null && !name1.givenName2.isEmpty())
+                        && (name2.givenName2 != null && !name2.givenName2.isEmpty())) {
                     result = name1.givenName2.toString().compareTo(name2.givenName2.toString());
-                    //If second given names are the same, compare third given names
+                    // If second given names are the same, compare third given names
                     if (result == 0) {
-                        if ((name1.givenName3 != null && !name1.givenName3.isEmpty()) && (name2.givenName3 != null && !name2.givenName3.isEmpty())) {
+                        if ((name1.givenName3 != null && !name1.givenName3.isEmpty())
+                                && (name2.givenName3 != null && !name2.givenName3.isEmpty())) {
                             result = name1.givenName2.toString().compareTo(name2.givenName2.toString());
-                        } else if ((name1.givenName3 != null && !name1.givenName3.isEmpty()) && (name2.givenName3 == null || name2.givenName3.isEmpty())) {
+                        } else if ((name1.givenName3 != null && !name1.givenName3.isEmpty())
+                                && (name2.givenName3 == null || name2.givenName3.isEmpty())) {
                             result = 1;
                         } else {
                             result = -1;
                         }
                     }
                 }
-            } else if ((name1.givenName2 != null && !name1.givenName2.isEmpty()) && (name2.givenName2 == null || name2.givenName2.isEmpty())) {
+            } else if ((name1.givenName2 != null && !name1.givenName2.isEmpty())
+                    && (name2.givenName2 == null || name2.givenName2.isEmpty())) {
                 result = 1;
             } else {
                 result = -1;
@@ -64,28 +68,20 @@ class SortByName implements Comparator<Name> {
     }
 }
 
-
 public class NameSorter {
     public static void main(String[] args) {
 
         ArrayList<Name> names = getNames();
-        for (Name name : names) {
-            System.out.print(name.toString());
-            System.out.println();
-        }
 
         Collections.sort(names, new SortByName());
-        System.out.println("Sorted:");
-        for (Name name : names) {
-            System.out.print(name.toString());
-            System.out.println();
-        }
+
+        writeNames(names);
     }
 
-    //Method to read names from file
+    // Method to read names from file
     public static ArrayList<Name> getNames() {
 
-        //Names are stored as Name objects inside an ArrayList
+        // Names are stored as Name objects inside an ArrayList
         ArrayList<Name> names = new ArrayList<>();
 
         try {
@@ -99,7 +95,7 @@ public class NameSorter {
                 } else if (nameParts.length == 3) {
                     Name name = new Name(nameParts[0], nameParts[1], null, nameParts[2]);
                     names.add(name);
-                } else {
+                } else if (nameParts.length == 2) {
                     Name name = new Name(nameParts[0], null, null, nameParts[1]);
                     names.add(name);
                 }
@@ -111,5 +107,23 @@ public class NameSorter {
         }
         return names;
     }
-}
 
+    //Method to write names to file and print to console
+    public static void writeNames(ArrayList<Name> names) {
+
+        try {
+            FileWriter nameWriter = new FileWriter("sorted-names-list.txt");
+            for (Name name : names) {
+                //Write to file
+                nameWriter.write(name.toString());
+                nameWriter.write(System.lineSeparator());
+                //Print to console
+                System.out.println(name.toString());
+            }
+            nameWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+}
